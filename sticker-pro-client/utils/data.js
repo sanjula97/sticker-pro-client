@@ -1,4 +1,14 @@
+import bcrypt from 'bcryptjs';
+
 const data = {
+  users: [
+    {
+      name: 'sticker-pro',
+      email: 'sanjulakarunarathna456@gmail.com',
+      password: bcrypt.hashSync('sanjula1997'),
+      isAdmin: true,
+    },
+  ],
     products: [
       {
         name: 'Free Shirt',
