@@ -1,13 +1,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Layout from '../../components/Layout';
 import data from '../../utils/data';
-import { Store } from '../../utils/Store';
+import { selectCartItems } from '../../redux/products/products.selectors';
+import { cartAddProduct } from '../../redux/products/products.actions'
 
 export default function ProductScreen() {
-  const { state, dispatch } = useContext(Store);
+  const { cartItems, cart } = useSelector(selectCartItems)
+  const dispatch = useDispatch()
+
   const router = useRouter();
   const { query } = useRouter();
   const { slug } = query;
@@ -17,7 +22,7 @@ export default function ProductScreen() {
   }
 
   const addToCartHandler = () => {
-    const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
+    const existItem = cart.cartItems?.find((x) => x.slug === product.slug);
     const quantity = existItem ? existItem.quantity + 1 : 1;
 
     if (product.countInStock < quantity) {
@@ -25,7 +30,7 @@ export default function ProductScreen() {
       return;
     }
 
-    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+    dispatch(cartAddProduct(product, quantity));
     router.push('/cart');
   };
 

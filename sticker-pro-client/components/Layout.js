@@ -1,19 +1,23 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import React, { useContext, useEffect, useState } from 'react';
-import { Store } from '../utils/Store';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectCartItems } from '../redux/products/products.selectors';
 
 export default function Layout({ title, children }) {
-  const { state } = useContext(Store);
-  const { cart } = state;
+
+  const cartData = useSelector(selectCartItems)
+
   const [cartItemsCount, setCartItemsCount] = useState(0);
+
   useEffect(() => {
-    setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
-  }, [cart.cartItems]);
+    setCartItemsCount(cartData.cart.reduce((a, c) => a + c.quantity, 0));
+  }, [cartData.cart]);
+
   return (
     <>
       <Head>
-        <title>{title ? title + '- Sticker pro' : 'Sticker pro'}</title>
+        <title>{title ? title + '- Ausmodz' : 'Ausmodz'}</title>
         <meta name="description" content="Ecommerce Website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -22,7 +26,7 @@ export default function Layout({ title, children }) {
         <header>
           <nav className="flex h-12 items-center px-4 justify-between shadow-md">
             <Link href="/">
-              <a className="text-lg font-bold">Sticker pro</a>
+              <a className="text-lg font-bold">Ausmodz</a>
             </Link>
             <div>
               <Link href="/cart">
@@ -43,7 +47,7 @@ export default function Layout({ title, children }) {
         </header>
         <main className="container m-auto mt-4 px-4">{children}</main>
         <footer className="flex h-10 justify-center items-center shadow-inner">
-          <p>Copyright © 2022 Amazona</p>
+          <p>Copyright © 2022 Ausmodz</p>
         </footer>
       </div>
     </>

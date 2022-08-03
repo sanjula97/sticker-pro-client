@@ -1,0 +1,1 @@
+export const CLEAR_REDUX_STORE = 'general/clear_reduc_store';

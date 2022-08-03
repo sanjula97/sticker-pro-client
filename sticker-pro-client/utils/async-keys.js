@@ -1,0 +1,1 @@
+export const REDUX_STORE_USER = 'ProSticker@:redux_store_user';

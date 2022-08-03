@@ -1,29 +1,30 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useContext } from 'react';
+import React from 'react';
 import { XCircleIcon } from '@heroicons/react/outline';
 import Layout from '../components/Layout';
-import { Store } from '../utils/Store';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCartItems } from '../redux/products/products.selectors';
+import { cartAddProduct, cartRemoveProduct } from '../redux/products/products.actions'
 
 function CartScreen() {
   const router = useRouter();
-  const { state, dispatch } = useContext(Store);
-  const {
-    cart: { cartItems },
-  } = state;
+  const { cartItems, cart } = useSelector(selectCartItems)
+  const dispatch = useDispatch()
+
   const removeItemHandler = (item) => {
-    dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+    dispatch(cartRemoveProduct(item));
   };
   const updateCartHandler = (item, qty) => {
     const quantity = Number(qty);
-    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
+    dispatch(cartAddProduct(item, quantity));
   };
   return (
     <Layout title="Shopping Cart">
       <h1 className="mb-4 text-xl">Shopping Cart</h1>
-      {cartItems.length === 0 ? (
+      {cart.length === 0 ? (
         <div>
           Cart is empty. <Link href="/">Go shopping</Link>
         </div>
@@ -40,7 +41,7 @@ function CartScreen() {
                 </tr>
               </thead>
               <tbody>
-                {cartItems.map((item) => (
+                {cart.map((item) => (
                   <tr key={item.slug} className="border-b">
                     <td>
                       <Link href={`/product/${item.slug}`}>
@@ -85,8 +86,8 @@ function CartScreen() {
             <ul>
               <li>
                 <div className="pb-3 text-xl">
-                  Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}) : $
-                  {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
+                  Subtotal ({cart.reduce((a, c) => a + c.quantity, 0)}) : $
+                  {cart.reduce((a, c) => a + c.quantity * c.price, 0)}
                 </div>
               </li>
               <li>

@@ -1,5 +1,6 @@
 {
   "name": "sticker-pro-client",
+  "proxy": "http://localhost:5001",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,13 +11,19 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
+    "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "js-cookie": "^3.0.1",
-    "mongoose": "^6.4.4",
+    "lodash": "^4.17.21",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.33.1"
+    "react-hook-form": "^7.33.1",
+    "react-redux": "^8.0.2",
+    "redux": "^4.2.0",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
